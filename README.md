@@ -46,7 +46,11 @@ sam --version
 
 ```shell
 sam build --use-container
-sam local start-api
+
+cd ./src/
+pip install -r ./requirements.txt
+uvicorn app:app --reload --host 0.0.0.0 --port 3000
+# sam local start-api
 ```
 
 <http://localhost:3000/api/ping>にリクエストを投げて、`{"message":"Hello World"}`が返ってくればOKです。  
