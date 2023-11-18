@@ -2,8 +2,10 @@ import os
 
 from fastapi import FastAPI
 from mangum import Mangum
+from dotenv import load_dotenv
 
 app = FastAPI()
+load_dotenv()
 
 
 @app.get("/api/ping")
