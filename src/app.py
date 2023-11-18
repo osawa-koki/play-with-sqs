@@ -3,8 +3,8 @@ import os
 import boto3
 from dotenv import load_dotenv
 from fastapi import FastAPI
-from pydantic import BaseModel
 from mangum import Mangum
+from pydantic import BaseModel
 
 app = FastAPI()
 load_dotenv()
