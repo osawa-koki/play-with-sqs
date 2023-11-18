@@ -16,6 +16,8 @@ Resources:
   LambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: !Sub "${AWS::StackName}-lambda-function"
+      Description: !Sub "${AWS::StackName}-lambda-function"
       PackageType: Image
       Architectures:
       - x86_64
@@ -41,7 +43,8 @@ Resources:
     Properties:
       ResourceGroupName: !Ref ApplicationResourceGroup
       AutoConfigurationEnabled: true
+
 Outputs:
   LambdaFunctionEventApi:
-    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Description: API Gateway endpoint URL for Prod
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
