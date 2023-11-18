@@ -13,6 +13,22 @@ Globals:
     TracingEnabled: true
 
 Resources:
+  Role:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${AWS::StackName}-role"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSQSFullAccess
+
   Queue:
     Type: AWS::SQS::Queue
     Properties:
@@ -27,7 +43,8 @@ Resources:
       Description: !Sub "${AWS::StackName}-lambda-function"
       PackageType: Image
       Architectures:
-      - x86_64
+        - x86_64
+      Role: !GetAtt Role.Arn
       Events:
         LambdaFunctionEvent:
           Type: Api
