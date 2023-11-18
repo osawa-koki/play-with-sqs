@@ -15,12 +15,10 @@ QUEUE_URL = os.environ.get("QUEUE_URL")
 
 
 class EnqueueModel(BaseModel):
-    message_group_id: str
     data: list[str]
 
 
 class DequeueModel(BaseModel):
-    message_group_id: str
     max_number_of_messages: int = 1
 
 
@@ -39,7 +37,7 @@ def enqueue(model: EnqueueModel):
     for data in model.data:
         client.send_message(
             QueueUrl=QUEUE_URL,
-            MessageGroupId=model.message_group_id,
+            MessageGroupId='message_group_id',
             MessageBody=data,
         )
     return {"message": "Enqueued"}
