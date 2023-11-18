@@ -9,9 +9,9 @@ from mangum import Mangum
 app = FastAPI()
 load_dotenv()
 
-client = boto3.client('sqs')
+client = boto3.client("sqs")
 
-QUEUE_URL = os.environ.get('QUEUE_URL')
+QUEUE_URL = os.environ.get("QUEUE_URL")
 
 
 class EnqueueModel(BaseModel):
@@ -52,13 +52,12 @@ def dequeue(model: DequeueModel):
         QueueUrl=QUEUE_URL,
         MaxNumberOfMessages=model.max_number_of_messages,
     )
-    messages = response.get('Messages')
+    messages = response.get("Messages")
     if messages:
         for message in messages:
-            result.append(message.get('Body'))
+            result.append(message.get("Body"))
             client.delete_message(
-                QueueUrl=QUEUE_URL,
-                ReceiptHandle=message.get('ReceiptHandle')
+                QueueUrl=QUEUE_URL, ReceiptHandle=message.get("ReceiptHandle")
             )
     return {"message": result}
 
