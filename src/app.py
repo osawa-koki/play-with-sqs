@@ -37,7 +37,7 @@ def enqueue(model: EnqueueModel):
     for data in model.data:
         client.send_message(
             QueueUrl=QUEUE_URL,
-            MessageGroupId='message_group_id',
+            MessageGroupId="message_group_id",
             MessageBody=data,
         )
     return {"message": "Enqueued"}
