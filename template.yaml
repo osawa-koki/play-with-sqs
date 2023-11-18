@@ -13,6 +13,13 @@ Globals:
     TracingEnabled: true
 
 Resources:
+  Queue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: !Sub "${AWS::StackName}-queue.fifo"
+      ContentBasedDeduplication: true
+      FifoQueue: true
+
   LambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -27,6 +34,9 @@ Resources:
           Properties:
             Path: /{proxy+}
             Method: ANY
+      Environment:
+        Variables:
+          QUEUE_URL: !Ref Queue
     Metadata:
       Dockerfile: Dockerfile
       DockerContext: ./src/
@@ -48,3 +58,6 @@ Outputs:
   LambdaFunctionEventApi:
     Description: API Gateway endpoint URL for Prod
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
+  QueueUrl:
+    Description: Queue URL
+    Value: !Ref Queue
